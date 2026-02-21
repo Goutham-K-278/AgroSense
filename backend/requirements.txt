@@ -1,0 +1,4 @@
+tensorflow==2.16.1
+tensorflowjs==4.22.0
+numpy==1.26.4
+Pillow==10.4.0
