@@ -1,0 +1,51 @@
+# Dependencies
+**/node_modules/
+
+# Build outputs
+**/dist/
+**/build/
+**/.next/
+**/out/
+
+# Vite / tooling caches
+**/.vite/
+**/.cache/
+
+# Logs
+**/*.log
+
+# Environment files (keep secrets out of git)
+**/.env
+**/.env.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Coverage
+**/coverage/
+# -----------------------
+# Node
+# -----------------------
+# Node
+node_modules/
+# Python
+.venv/
+__pycache__/
+
+# Environment files
+.env
+
+# Datasets
+Crop__Disease/
+Data Set/
+
+# Large files
+*.h5
+*.pt
+*.pth
+*.zip
+*.tar
+*.jpg
+*.png

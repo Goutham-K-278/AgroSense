@@ -1,0 +1,28 @@
+{
+  "name": "uzhavar-ai",
+  "version": "1.0.0",
+  "description": "Bilingual (Tamil/English) crop recommendation UI + a conversational assistant for Tamil Nadu farmers.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "dev:convert": "concurrently \"npm run convert-model\" \"npm run backend\" \"npm run frontend\"",
+    "convert-model": "cd backend && python convert_crop_disease_to_tfjs.py",
+    "backend": "cd backend && npm start",
+    "frontend": "cd frontend && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Goutham-K-278/AgroSense.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Goutham-K-278/AgroSense/issues"
+  },
+  "homepage": "https://github.com/Goutham-K-278/AgroSense#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
