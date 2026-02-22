@@ -4,6 +4,8 @@
   "description": "Bilingual (Tamil/English) crop recommendation UI + a conversational assistant for Tamil Nadu farmers.",
   "main": "index.js",
   "scripts": {
+    "postinstall": "cd frontend && npm install",
+    "build": "cd frontend && npm run build",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "dev:convert": "concurrently \"npm run convert-model\" \"npm run backend\" \"npm run frontend\"",
     "convert-model": "cd backend && python convert_crop_disease_to_tfjs.py",
