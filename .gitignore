@@ -37,10 +37,6 @@ __pycache__/
 # Environment files
 .env
 
-# Datasets
-Crop__Disease/
-Data Set/
-
 # Large files
 *.h5
 *.pt
@@ -48,4 +44,9 @@ Data Set/
 *.zip
 *.tar
 *.jpg
-*.png
+# Ignore dataset images
+Crop__Disease/
+Data Set/
+
+# Allow architecture image
+!images/architecture.png
