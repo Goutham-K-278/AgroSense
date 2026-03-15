@@ -152,24 +152,6 @@ npm run dev
 
 ---
 
-## 7) Copilot CLI Setup (Ubuntu)
-
-Run:
-
-```bash
-bash scripts/setup-copilot-cli.sh
-```
-
-Then authenticate:
-
-```bash
-gh auth login
-gh extension install github/gh-copilot
-gh copilot suggest "how do I run this project?"
-```
-
----
-
 ## 8) Environment Variables
 
 Templates included:
