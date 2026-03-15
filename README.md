@@ -127,32 +127,7 @@ Backend default URL: `http://localhost:5000`
 
 ---
 
-## 6) Linux Ubuntu Setup (For Pendrive Copy)
-
-After copying this folder to your Ubuntu laptop:
-
-```bash
-cd /path/to/Agro-Sense
-bash scripts/setup-ubuntu.sh
-```
-
-This script will:
-
-- install required Ubuntu packages
-- create `.venv`
-- install Python dependencies
-- install root, backend, and frontend npm dependencies
-- create `backend/.env` and `frontend/.env` from templates (if missing)
-
-Then start development:
-
-```bash
-npm run dev
-```
-
----
-
-## 8) Environment Variables
+## 6) Environment Variables
 
 Templates included:
 
@@ -184,7 +159,7 @@ FIREBASE_SENSOR_PATH=sensor
 
 ---
 
-## 9) Production Deployment (Docker)
+## 7) Production Deployment (Docker)
 
 Build image:
 
@@ -214,7 +189,7 @@ docker compose -f docker-compose.prod.yml up -d
 
 ---
 
-## 10) CI/CD
+## 8) CI/CD
 
 Workflows in `.github/workflows/`:
 
@@ -228,7 +203,7 @@ Published image tags include:
 
 ---
 
-## 11) ONNX Model Optimization
+## 9) ONNX Model Optimization
 
 Convert Keras model to ONNX:
 
@@ -262,7 +237,7 @@ Backend supports persistent ONNX daemon for lower latency:
 
 ---
 
-## 13) Production Checklist
+## 10) Production Checklist
 
 1. Rotate and secure Firebase keys if previously exposed.
 2. Keep secrets only in env or secret manager.
@@ -273,7 +248,7 @@ Backend supports persistent ONNX daemon for lower latency:
 
 ---
 
-## 14) Useful Scripts
+## 11) Useful Scripts
 
 From project root:
 
