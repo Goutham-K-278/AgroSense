@@ -1,6 +1,8 @@
 # Agro-Sense
 
-Agro-Sense is a full-stack smart agriculture platform for farmers and agronomy workflows. It combines:
+Agro-Sense is a full-stack smart agriculture platform for farmers and agronomy workflows.
+
+It combines:
 
 - Real-time and historical farm/sensor insights
 - NPK prediction and fertilizer planning
@@ -8,13 +10,13 @@ Agro-Sense is a full-stack smart agriculture platform for farmers and agronomy w
 - Alerts and weather-aware advisories
 - A bilingual (English/Tamil) AI assistant chat
 
-The project uses a React + Vite frontend, an Express backend, Firebase services, and Python/TensorFlow scripts for crop disease ML tasks.
+The project uses a React + Vite frontend, an Express backend, Firebase services, and Python ML scripts for crop disease tasks.
 
 ---
 
 ## 1) Architecture
 
-### System architecture (PNG)
+### System Architecture (PNG)
 
 ![Agro-Sense Architecture PNG](images/AgroSence.drawio.png)
 
@@ -23,6 +25,7 @@ The project uses a React + Vite frontend, an Express backend, Firebase services,
 ## 2) Tech Stack
 
 ### Frontend
+
 - React (Vite)
 - Tailwind CSS
 - Framer Motion
@@ -31,6 +34,7 @@ The project uses a React + Vite frontend, an Express backend, Firebase services,
 - Firebase client SDK (Auth, Firestore, Realtime DB, Storage)
 
 ### Backend
+
 - Node.js + Express
 - nodemon (development auto-reload)
 - Firebase Admin SDK
@@ -38,16 +42,20 @@ The project uses a React + Vite frontend, an Express backend, Firebase services,
 - Web Push notifications
 - Multer for image upload
 - TensorFlow.js Node runtime
-- ML Random Forest (for NPK related logic)
-
-### Dev Tooling
-- concurrently (root-level parallel frontend + backend dev run)
+- ML Random Forest (for NPK logic)
 
 ### Python ML
+
 - TensorFlow
 - TensorFlow.js converter
 - NumPy
 - Pillow
+- tf2onnx
+- onnxruntime
+
+### Dev Tooling
+
+- concurrently (root-level parallel frontend + backend dev run)
 
 ---
 
@@ -55,47 +63,48 @@ The project uses a React + Vite frontend, an Express backend, Firebase services,
 
 ```text
 Agro-Sense/
-├─ backend/                  # Express server + services + ML integration
-│  ├─ config/
-│  ├─ middleware/
-│  ├─ models/                # Saved model files and labels
-│  ├─ scripts/               # Python inference/training scripts
-│  ├─ services/              # Domain services (weather, alerts, advisory, etc.)
-│  ├─ server.js
-│  └─ requirements.txt       # Python dependencies (pinned)
-├─ frontend/                 # React UI
-│  ├─ public/
-│  └─ src/
-├─ Crop___Disease/           # Image dataset by crop and disease class
-├─ Data Set/                 # Tabular datasets used by model/service logic
-├─ images/                   # Architecture diagrams and docs assets
-└─ package.json              # Root scripts to run frontend + backend together
+|- backend/
+|  |- config/
+|  |- middleware/
+|  |- models/
+|  |- scripts/
+|  |- services/
+|  |- server.js
+|  `- requirements.txt
+|- frontend/
+|  |- public/
+|  `- src/
+|- Crop___Disease/
+|- Data Set/
+|- images/
+|- Dockerfile
+|- docker-compose.yml
+`- package.json
 ```
 
 ---
 
-## 4) Prerequisites (from scratch)
+## 4) Prerequisites
 
 Install these first:
 
-1. **Node.js 20+** (includes npm)
-2. **Python 3.10 or 3.11** (recommended for TensorFlow compatibility)
-3. **Git**
-4. (Recommended) **VS Code**
+1. Node.js 20+
+2. Python 3.10 or 3.11
+3. Git
+4. VS Code (recommended)
 
 Optional but commonly needed:
-- Firebase project (for Auth/Admin + DB usage)
-- OpenWeather API key (weather endpoints)
-- Gemini API key (assistant chat)
+
+- Firebase project (Auth/Admin + DB)
+- OpenWeather API key
+- Gemini API key
 
 ---
 
-## 5) Clone and Install
-
-From a clean machine:
+## 5) Quick Start (Windows PowerShell)
 
 ```powershell
-git clone <your-repo-url>
+git clone https://github.com/Goutham-K-278/AgroSense.git
 cd Agro-Sense
 npm install
 cd backend
@@ -103,225 +112,201 @@ npm install
 cd ..\frontend
 npm install
 cd ..
-```
-
-Run all commands from the repo root (`Agro-Sense`) unless a step explicitly says otherwise.
-
----
-
-## 6) Python Environment for ML
-
-Create and activate a virtual environment in repo root:
-
-```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install --upgrade pip
 pip install -r backend\requirements.txt
-```
-
-Pinned packages in `backend/requirements.txt` are used so other developers get consistent Python package versions.
-
-This step is required before first backend run. If skipped, crop-disease inference fails with errors like `ModuleNotFoundError: No module named 'PIL'`.
-
----
-
-## 7) Environment Variables
-
-This repository already includes template files:
-
-- `backend/.env.example`
-- `frontend/.env.example`
-
-Create local env files from templates:
-
-```powershell
 Copy-Item backend/.env.example backend/.env
 Copy-Item frontend/.env.example frontend/.env
-```
-
-Then update values in both `.env` files for your own machine and keys.
-
-Important:
-- Replace any placeholder/example API keys before production use.
-- Keep real secrets only in local `.env` (or your deployment secret manager), not in git.
-
----
-
-## 8) Run in Development
-
-Before running, ensure you completed all of these:
-- `npm install` in root, `backend`, and `frontend`
-- env files copied from `.env.example`
-- Python venv created and `pip install -r backend\requirements.txt` completed
-
-### Option A: Run both frontend and backend from root
-
-```powershell
 npm run dev
 ```
 
-This runs backend + frontend concurrently.
+Frontend default URL: `http://localhost:5173`
 
-Implementation detail:
-- Root `npm run dev` uses `concurrently` to launch both apps.
-- Backend `npm start` uses `nodemon` for automatic restart on file changes.
-
-### Option B: Run separately
-
-Terminal 1:
-```powershell
-cd backend
-npm start
-```
-
-Terminal 2:
-```powershell
-cd frontend
-npm run dev
-```
-
-Frontend default URL: `http://localhost:5173`  
 Backend default URL: `http://localhost:5000`
 
 ---
 
-## 9) Build for Production
+## 6) Linux Ubuntu Setup (For Pendrive Copy)
 
-```powershell
-npm run --prefix frontend build
+After copying this folder to your Ubuntu laptop:
+
+```bash
+cd /path/to/Agro-Sense
+bash scripts/setup-ubuntu.sh
 ```
 
-The backend can serve frontend build files from `frontend/dist` if they exist.
+This script will:
+
+- install required Ubuntu packages
+- create `.venv`
+- install Python dependencies
+- install root, backend, and frontend npm dependencies
+- create `backend/.env` and `frontend/.env` from templates (if missing)
+
+Then start development:
+
+```bash
+npm run dev
+```
 
 ---
 
-## 10) Python ML Workflows
+## 7) Copilot CLI Setup (Ubuntu)
 
-### A) Crop disease inference
-The backend uses Python scripts (`backend/scripts/`) and model files under `backend/models/`.
+Run:
 
-- `predict_crop_disease.py`: one-shot inference
-- `predict_crop_disease_daemon.py`: persistent daemon for lower-latency repeated inference
-- `train_crop_disease.py`: training pipeline
-
-### B) Convert Keras disease model to TensorFlow.js
-
-From root:
-
-```powershell
-npm run convert-model
+```bash
+bash scripts/setup-copilot-cli.sh
 ```
 
-This executes `backend/convert_crop_disease_to_tfjs.py`.
+Then authenticate:
 
-### C) Model/data expectations
-
-- Disease model expected at: `backend/models/crop_disease_model.h5`
-- Disease labels expected at: `backend/models/crop_disease_labels.json`
-- Dataset fallback source: `Crop___Disease/` directory
+```bash
+gh auth login
+gh extension install github/gh-copilot
+gh copilot suggest "how do I run this project?"
+```
 
 ---
 
-## 11) Key Backend API Endpoints
+## 8) Environment Variables
 
-### Health and system
-- `GET /` → backend status message
-- `GET /api/health` → uptime, model metadata, Firebase status
+Templates included:
 
-### Push notifications
-- `GET /api/push/public-key`
-- `POST /api/push/subscribe` (auth)
-- `POST /api/push/notify` (auth)
+- `backend/.env.example`
+- `frontend/.env.example`
 
-### Disease + agronomy
-- `POST /api/crop-diagnosis` (auth, image upload)
+Create local files:
+
+```bash
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+```
+
+Update values before production use.
+
+Do not commit secrets.
+
+Recommended backend Firebase env names:
+
+```env
+FIREBASE_PROJECT_ID=your-project-id
+FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxx@your-project-id.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYOUR_PRIVATE_KEY_CONTENT\n-----END PRIVATE KEY-----\n"
+FIREBASE_DATABASE_URL=https://your-project-id-default-rtdb.firebaseio.com
+FIREBASE_SENSOR_PATH=sensor
+```
+
+`FIREBASE_SERVICE_ACCOUNT_JSON` and `FIREBASE_SERVICE_ACCOUNT_PATH` are still supported as fallbacks.
+
+---
+
+## 9) Production Deployment (Docker)
+
+Build image:
+
+```bash
+docker build -t agrosense:latest .
+```
+
+Run container with backend env file:
+
+```bash
+docker run --rm -p 5000:5000 --env-file backend/.env agrosense:latest
+```
+
+Use local build + run via Compose:
+
+```bash
+docker compose up --build -d
+```
+
+Use GHCR production image via Compose:
+
+```bash
+cp .env.production.example .env
+# fill in real values in .env first
+docker compose -f docker-compose.prod.yml up -d
+```
+
+---
+
+## 10) CI/CD
+
+Workflows in `.github/workflows/`:
+
+- `ci.yml`: installs deps, builds frontend, validates Python scripts, validates compose config, and builds Docker image with Buildx cache
+- `deploy-container.yml`: publishes image to GHCR after successful CI on `main` (or manual dispatch), then optionally triggers `DEPLOY_WEBHOOK_URL`
+
+Published image tags include:
+
+- `ghcr.io/goutham-k-278/agrosense:latest` (default branch)
+- `ghcr.io/goutham-k-278/agrosense:sha-<commit>`
+
+---
+
+## 11) ONNX Model Optimization
+
+Convert Keras model to ONNX:
+
+```bash
+npm run convert-model:onnx
+```
+
+Generated file:
+
+- `backend/models/crop_disease_model.onnx`
+
+Use ONNX inference engine:
+
+- `DISEASE_INFERENCE_ENGINE=onnx`
+
+Backend supports persistent ONNX daemon for lower latency:
+
+- `backend/scripts/predict_crop_disease_onnx_daemon.py`
+
+---
+
+## 12) Key API Endpoints
+
+- `GET /api/health`
+- `POST /api/crop-diagnosis` (auth)
 - `POST /api/predict-npk` (auth)
-- `GET /api/npk/live-sensor` (auth)
-- `GET /api/npk/latest` (auth)
-- `GET /api/npk/history` (auth)
-- `GET /api/npk/model-info`
 - `POST /api/fertilizer/plan` (auth)
 - `POST /api/crop/recommend` (auth)
 - `GET /api/alerts` (auth)
-- `GET /api/demo/summary` (auth)
-
-### AI assistant
 - `POST /chat`
 
 ---
 
-## 12) Authentication and Firebase Notes
+## 13) Production Checklist
 
-- Most agronomy endpoints are protected with Firebase ID token bearer auth.
-- Backend verifies token via Firebase Admin middleware.
-- For local testing, ensure frontend login flow is functional and sends `Authorization: Bearer <token>`.
-- If Firebase Admin credentials are missing, some endpoints return service-unavailable responses by design.
-
----
-
-## 13) Known Setup Pitfalls
-
-1. **TensorFlow on unsupported Python version**  
-   Use Python 3.10/3.11 for best compatibility.
-
-2. **Backend starts but disease inference fails**  
-   Ensure `.venv` exists and required model files are present.
-
-3. **Chat returns quota/rate-limit errors**  
-   Validate `GEMINI_API_KEY` and provider quota limits.
-
-4. **Weather/advisory data is limited**  
-   Add `OPENWEATHER_API_KEY` and check network egress.
-
-5. **Auth-protected endpoints return 401**  
-   Verify Firebase login and bearer token forwarding.
+1. Rotate and secure Firebase keys if previously exposed.
+2. Keep secrets only in env or secret manager.
+3. Set `DISEASE_INFERENCE_ENGINE=onnx` for faster CPU inference.
+4. Validate `GET /api/health` after deployment.
+5. Test weather, diagnosis upload, and auth-protected endpoints.
+6. Confirm CI and deploy workflows are green.
 
 ---
 
-## 14) Data and Secrets Hygiene
-
-Recommended for team collaboration:
-
-- Never commit real service account keys or production secrets.
-- Keep secrets in local `.env` / deployment secret manager.
-- Share only template config values in documentation.
-- Rotate keys immediately if exposed.
-
----
-
-## 15) Suggested First-Time Validation Checklist
-
-After setup, validate in this order:
-
-1. `GET /api/health` returns `status: ok`
-2. Frontend loads and login works
-3. NPK prediction endpoint works from UI
-4. Disease diagnosis upload works
-5. Alerts and assistant chat work
-
-If all five are working, your local project is correctly configured end-to-end.
-
----
-
-## 16) Useful Scripts (Quick Reference)
+## 14) Useful Scripts
 
 From project root:
 
-- `npm run dev` → run frontend + backend
-- `npm run backend` → backend only
-- `npm run frontend` → frontend only
-- `npm run convert-model` → convert disease model to TFJS
-- `npm run dev:convert` → convert + run full stack
-
-From backend:
-
-- `npm start` → run backend with nodemon
-
-From frontend:
-
-- `npm run dev` → run frontend dev server
-- `npm run build` → production build
-- `npm run preview` → preview build
+- `npm run dev`
+- `npm run backend`
+- `npm run frontend`
+- `npm run convert-model`
+- `npm run convert-model:onnx`
+- `npm run docker:build`
+- `npm run docker:run`
+- `npm run docker:compose:up`
+- `npm run docker:compose:down`
+- `npm run docker:compose:prod:up`
+- `npm run docker:compose:prod:down`
+- `npm run setup:ubuntu`
+- `npm run setup:copilot-cli`
 
 ---

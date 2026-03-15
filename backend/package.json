@@ -5,14 +5,16 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "set \"PATH=%cd%\\node_modules\\@tensorflow\\tfjs-node\\deps\\lib;%PATH%\" && nodemon server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "convert-model:onnx": "python scripts/convert_crop_disease_to_onnx.py",
+    "test:onnx-daemon": "python scripts/predict_crop_disease_onnx_daemon.py"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
-    "@tensorflow/tfjs-node": "^4.22.0",
     "cors": "^2.8.6",
     "dotenv": "^17.2.4",
     "express": "^5.2.1",

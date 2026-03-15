@@ -9,8 +9,17 @@
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "dev:convert": "concurrently \"npm run convert-model\" \"npm run backend\" \"npm run frontend\"",
     "convert-model": "cd backend && python convert_crop_disease_to_tfjs.py",
-    "backend": "cd backend && npm start",
-    "frontend": "cd frontend && npm run dev"
+    "convert-model:onnx": "cd backend && python scripts/convert_crop_disease_to_onnx.py",
+    "backend": "npm run --prefix backend dev",
+    "frontend": "cd frontend && npm run dev",
+    "docker:build": "docker build -t agrosense:latest .",
+    "docker:run": "docker run --rm -p 5000:5000 --env-file backend/.env agrosense:latest",
+    "docker:compose:up": "docker compose up --build -d",
+    "docker:compose:down": "docker compose down",
+    "docker:compose:prod:up": "docker compose -f docker-compose.prod.yml up -d",
+    "docker:compose:prod:down": "docker compose -f docker-compose.prod.yml down",
+    "setup:ubuntu": "bash scripts/setup-ubuntu.sh",
+    "setup:copilot-cli": "bash scripts/setup-copilot-cli.sh"
   },
   "repository": {
     "type": "git",
