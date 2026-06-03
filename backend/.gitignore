@@ -1,3 +1,23 @@
-node_modules
+# Dependencies
+node_modules/
+
+# Environment & Secrets
 .env
+.env.local
+.env.*.local
+
+# Sensitive Files
 serviceAccountKey.json
+vapid-keys.json
+push-subscriptions.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/

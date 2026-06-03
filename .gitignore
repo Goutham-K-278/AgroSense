@@ -25,26 +25,33 @@ Thumbs.db
 
 # Coverage
 **/coverage/
-# -----------------------
-# Node
-# -----------------------
+
 # Node
 node_modules/
+
 # Python
 .venv/
 __pycache__/
+*.pyc
 
-# Environment files
-.env
+# Sensitive Files - NEVER commit these
+backend/serviceAccountKey.json
+backend/vapid-keys.json
+backend/push-subscriptions.json
+# But DO allow the example/template files
+!backend/vapid-keys.example.json
+!backend/push-subscriptions.example.json
 
-# Large files
+# Large files & Models
 *.h5
 *.pt
 *.pth
+*.onnx
 *.zip
 *.tar
-*.jpg
-# Ignore dataset images
+*.tar.gz
+
+# Dataset images
 Crop__Disease/
 Data Set/
 
