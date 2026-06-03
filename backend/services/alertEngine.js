@@ -4,6 +4,7 @@ const safeNumber = (value, fallback = 0) => {
 };
 
 const toPercent = (value) => Number(safeNumber(value, 0).toFixed(1));
+
 const toValue = (value) => Number(safeNumber(value, 0).toFixed(1));
 
 const buildAlert = ({ type, title, message, priority, actionDeadlineHours }) => ({
@@ -58,6 +59,7 @@ const nutrientGuidance = {
 
 const buildNutrientAlerts = ({ deficiency = {}, npkStatus = {}, npkValues = {} } = {}) => {
   const nutrientAlerts = [];
+
   ["N", "P", "K"].forEach((nutrient) => {
     const profile = deficiency?.[nutrient];
     if (!profile) return;
@@ -66,18 +68,29 @@ const buildNutrientAlerts = ({ deficiency = {}, npkStatus = {}, npkValues = {} }
     const percentPriority = resolvePriorityFromDeficit(percent);
     const statusPriority = resolvePriorityFromStatus(npkStatus?.[nutrient]);
     const priority = percentPriority || statusPriority;
-    if (!priority) return;
+    
+    if (!priority) return; // Skip if no deficiency detected
 
+    // Get current and required levels for the message
     const required = toValue(profile?.required);
     const predicted = toValue(profile?.predicted ?? npkValues?.[nutrient]);
     const deficitPercent = toPercent(percent);
     const label = nutrientLabels[nutrient] || nutrient;
     const titleSuffix = nutrientPriorityTitles[priority];
+    
+    // Create the alert
     nutrientAlerts.push(
       buildAlert({
-        type: "npk",
-        title: `${label} ${titleSuffix}`,
+        type: "npk", // Nutrient alert
+        title: `${label} ${titleSuffix}`, // e.g., "Nitrogen Critical Low"
         message: `${label} requirement is ${required} but predicted level is ${predicted}. Deficit is ${deficitPercent}%. ${nutrientGuidance[priority]}`,
+        priority,
+        actionDeadlineHours: nutrientActionWindows[priority],
+      }),
+    );
+  });
+
+  return nutrientAlerts;
         priority,
         actionDeadlineHours: nutrientActionWindows[priority] || 96,
       }),

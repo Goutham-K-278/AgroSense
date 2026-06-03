@@ -18,7 +18,6 @@ const toIsoDate = (unixSeconds) => {
 const toDateKeyWithOffset = (unixSeconds, offsetSeconds = 0) => {
   const timestampMs = Number(unixSeconds) * 1000;
   if (!Number.isFinite(timestampMs)) return null;
-
   const shifted = new Date(timestampMs + safeNumber(offsetSeconds, 0) * 1000);
   const year = shifted.getUTCFullYear();
   const month = String(shifted.getUTCMonth() + 1).padStart(2, "0");
@@ -52,7 +51,6 @@ const getTomorrowForecastSummary = (forecastList = [], timezoneOffsetSeconds = 0
       tomorrowEntries,
     };
   }
-
   const rainfallNext24h = Number(
     tomorrowEntries.reduce((sum, item) => sum + safeNumber(item?.rain?.["3h"], 0), 0).toFixed(2),
   );

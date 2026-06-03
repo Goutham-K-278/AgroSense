@@ -42,6 +42,9 @@ backend/push-subscriptions.json
 !backend/vapid-keys.example.json
 !backend/push-subscriptions.example.json
 
+# Personal Documentation (for local learning only)
+CODEBASE_GUIDE.md
+
 # Large files & Models
 *.h5
 *.pt

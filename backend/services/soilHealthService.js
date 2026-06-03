@@ -40,6 +40,7 @@ export const computeSoilHealth = ({ deficiency, trendAnalysis }) => {
   const moistureScore = moistureStabilityScore(trendAnalysis);
   const riskScore = riskToScore(trendAnalysis?.riskLevel || "low");
 
+  // Weighted: 55% nutrients + 25% moisture + 20% risk
   const weightedScore = nutrientScore * 0.55 + moistureScore * 0.25 + riskScore * 0.2;
   const score = Math.round(clamp(weightedScore, 0, 100));
 

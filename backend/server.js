@@ -21,13 +21,13 @@ import { computeSustainability } from "./services/sustainabilityService.js";
 import { createFertilizerPlan } from "./services/fertilizerPlanService.js";
 import { generateFarmAlerts, sortAlertsByPriority } from "./services/alertEngine.js";
 
+// Lazy-load crop recommendation service to improve startup time
 let cropModelMetadata = { enabled: false, reason: "Not loaded" };
 let recommendCrops = () => [];
 let cropServiceLoadAttempted = false;
 
 const ensureCropService = async () => {
   if (cropServiceLoadAttempted) return;
-
   cropServiceLoadAttempted = true;
   try {
     const cropServiceModule = await import("./services/cropRecommendationService.js");
@@ -49,13 +49,16 @@ const SENSOR_DATA_PATH = (process.env.FIREBASE_SENSOR_PATH || "sensor").replace(
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 const tfLibPath = path.join(__dirname, "node_modules", "@tensorflow", "tfjs-node", "deps", "lib");
 if (!process.env.PATH?.toLowerCase().includes(tfLibPath.toLowerCase())) {
   process.env.PATH = `${tfLibPath};${process.env.PATH || ""}`;
 }
 const tf = await import("@tensorflow/tfjs-node");
+
 const MODEL_DIR = path.join(__dirname, "models");
 const MODEL_FILE_PATH = path.join(MODEL_DIR, "npk_model.json");
 const FRONTEND_DIST_PATH = path.join(__dirname, "..", "frontend", "dist");
@@ -64,6 +67,7 @@ const DISEASE_LABELS_PATH = path.join(MODEL_DIR, "crop_disease_labels.json");
 const DISEASE_PREDICT_SCRIPT_PATH = path.join(__dirname, "scripts", "predict_crop_disease.py");
 const DISEASE_DAEMON_SCRIPT_PATH = path.join(__dirname, "scripts", "predict_crop_disease_daemon.py");
 const VENV_PYTHON_PATH = path.join(__dirname, "..", ".venv", "Scripts", "python.exe");
+
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 
 const resolveDatasetPath = () => {
@@ -73,7 +77,6 @@ const resolveDatasetPath = () => {
     path.join(__dirname, "..", "crop___disease"),
     path.join(__dirname, "..", "Crop___Disease"),
   ];
-
   return candidates.find((p) => existsSync(p)) || candidates[0];
 };
 
@@ -93,14 +96,12 @@ const loadOrCreateVapidKeys = () => {
     if (process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
       return { publicKey: process.env.VAPID_PUBLIC_KEY, privateKey: process.env.VAPID_PRIVATE_KEY };
     }
-
     if (existsSync(VAPID_KEYS_PATH)) {
       const parsed = JSON.parse(readFileSync(VAPID_KEYS_PATH, "utf-8"));
       if (parsed?.publicKey && parsed?.privateKey) {
         return parsed;
       }
     }
-
     const generated = webpush.generateVAPIDKeys();
     writeFileSync(VAPID_KEYS_PATH, JSON.stringify(generated, null, 2));
     console.log("🔑 Generated VAPID keys and saved to vapid-keys.json");
@@ -144,23 +145,19 @@ const addOrUpdateSubscription = ({ subscription, uid }) => {
   if (!subscription?.endpoint) {
     return null;
   }
-
   const existingIndex = pushSubscriptions.findIndex((item) => item.subscription?.endpoint === subscription.endpoint);
   const now = Date.now();
-
   const record = {
     subscription,
     uid: uid || "",
     createdAt: existingIndex >= 0 ? pushSubscriptions[existingIndex].createdAt : now,
     updatedAt: now,
   };
-
   if (existingIndex >= 0) {
     pushSubscriptions[existingIndex] = record;
   } else {
     pushSubscriptions.push(record);
   }
-
   persistSubscriptions(pushSubscriptions);
   return record;
 };

@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { onAuthStateChanged } from 'firebase/auth'
 import { onValue, ref as dbRef } from 'firebase/database'
 import { useTranslation } from 'react-i18next'
+
 import Analyze from './pages/Analyze.jsx'
 import Home from './pages/Home.jsx'
 import AssistantWidget from './components/AssistantWidget.jsx'
@@ -17,6 +18,7 @@ import Weather from './pages/Weather.jsx'
 import Alerts from './pages/Alerts.jsx'
 import Fertilizer from './pages/Fertilizer.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
+
 import { auth, database } from './firebase'
 import { ensurePushSubscription, pushNotification } from './utils/notificationCenter'
 
@@ -24,6 +26,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
 function App() {
   const { t } = useTranslation()
+
   const knownAlertIdsRef = useRef(new Set())
   const knownPostIdsRef = useRef(new Set())
   const pushRegisteredRef = useRef(false)
