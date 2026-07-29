@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  agrosense:
+    environment:
+      DISEASE_INFERENCE_ENGINE: onnx
+      NODE_ENV: production
+      NODE_OPTIONS: --max-old-space-size=320
+      UV_THREADPOOL_SIZE: "1"
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+      PYTHON_PATH: python3
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

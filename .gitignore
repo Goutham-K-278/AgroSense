@@ -55,8 +55,9 @@ CODEBASE_GUIDE.md
 *.tar.gz
 
 # Dataset images
-Crop__Disease/
+Crop___Disease/
 Data Set/
 
 # Allow architecture image
 !images/architecture.png
+!images/architecture.svg
